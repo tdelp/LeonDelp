@@ -1,0 +1,23 @@
+[
+  {
+    "id": 0,
+    "color": "tan",
+    "size": "medium",
+    "name": "Jack",
+    "animal": "kangaroo"
+  },
+  {
+    "id": 1,
+    "color": "pink",
+    "size": "small",
+    "name": "John",
+    "animal": "pig"
+  },
+  {
+    "id": 3,
+    "color": "blue",
+    "size": "large",
+    "name": "Joey",
+    "animal": "dog"
+  }
+]
