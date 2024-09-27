@@ -10,15 +10,19 @@ import randomCost from "../forms/randomCost.js";
 import randomSpecies from "../forms/randomSpecies.js";
 
 const Main = () => {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState([]); // State to hold the user data
   const [cost, setCost] = useState(null); // State to hold the generated cost
   const [species, setSpecies] = useState(null); // State to hold the recommended species
 
+  // useEffect hook to run the async getAllUsers function
   useEffect(() => {
-    getAllUsers().then((users) => {
-      setUsers(users);
-    });
-  }, []);
+    const fetchUsers = async () => {
+      const data = await getAllUsers(); // Await the async getAllUsers function
+      setUsers(data); // Set the fetched user data in state
+    };
+
+    fetchUsers(); // Call the async function
+  }, []); // Empty dependency array ensures this only runs once on mount
 
   return html`
     <div>
