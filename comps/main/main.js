@@ -16,6 +16,7 @@ const Navbar = () => {
       <ul
         style="list-style-type: none; margin: 0; padding: 0; overflow: hidden;"
       >
+        <!-- Home link in the navbar -->
         <li style="float: left; margin-right: 20px;">
           <a
             href="/"
@@ -23,6 +24,7 @@ const Navbar = () => {
             >Home</a
           >
         </li>
+        <!-- Cost link in the navbar -->
         <li style="float: left; margin-right: 20px;">
           <a
             href="/cost"
@@ -30,6 +32,7 @@ const Navbar = () => {
             >Cost</a
           >
         </li>
+        <!-- Species link in the navbar -->
         <li style="float: left; margin-right: 20px;">
           <a
             href="/species"
@@ -37,6 +40,7 @@ const Navbar = () => {
             >Species</a
           >
         </li>
+        <!-- Price link in the navbar -->
         <li style="float: left;">
           <a
             href="/price"
@@ -50,40 +54,46 @@ const Navbar = () => {
 };
 
 const Main = () => {
-  const [users, setUsers] = useState([]); // State to hold the user data
+  const [users, setUsers] = useState([]); // State to store the user data
   const [cost, setCost] = useState(null); // State to hold the generated cost
-  const [species, setSpecies] = useState(null); // State to hold the recommended species
+  const [species, setSpecies] = useState(null); // State to hold
 
-  // useEffect hook to run the async getAllUsers function
+  // useEffect to fetch users data on component mount
   useEffect(() => {
-    const fetchUsers = async () => {
-      const data = await getAllUsers(); // Await the async getAllUsers function
-      setUsers(data); // Set the fetched user data in state
-    };
-
-    fetchUsers(); // Call the async function
-  }, []); // Empty dependency array ensures this only runs once on mount
+    // Fetches all users and sets the users state
+    getAllUsers().then((users) => {
+      setUsers(users);
+    });
+  }, []); // Empty dependency array ensures this runs only once on mount
 
   return html`
     <div>
       <!-- Include the simple HTML Navbar at the top -->
       <${Navbar} />
 
-      <div style="padding: 20px;">
-        <h1>Super cute animal json display</h1>
-        <${MainList} users=${users} />
+      <!-- Main heading for the page -->
+      <h1>Super cute animal json display</h1>
 
-        <h3>Submit A New Pet Into The Database!</h3>
-        <${Form} />
+      <!-- Display the list of users (pets) -->
+      <${MainList} users=${users} />
 
-        <h3>This is how much the cost is: ${cost || "Click to Generate"}</h3>
-        <${randomCost} onCostGenerated=${setCost} />
+      <!-- Heading for the form section -->
+      <h3>Submit A New Pet Into The Database!</h3>
 
-        <h3>
-          Recommended species: ${species || "Click to Get Recommendation"}
-        </h3>
-        <${randomSpecies} onSpeciesRecommended=${setSpecies} />
-      </div>
+      <!-- Form component for adding new pet data -->
+      <${Form} />
+
+      <!-- Section to display generated cost for a pet -->
+      <h3>This is how much the cost is: ${cost || "Click to Generate"}</h3>
+
+      <!-- randomCost component to generate and set cost value -->
+      <${randomCost} onCostGenerated=${setCost} />
+
+      <!-- Section to display recommended species -->
+      <h3>Recommended species: ${species || "Click to Get Recommendation"}</h3>
+
+      <!-- randomSpecies component to generate and set species recommendation -->
+      <${randomSpecies} onSpeciesRecommended=${setSpecies} />
     </div>
   `;
 };

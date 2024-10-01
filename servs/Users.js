@@ -1,37 +1,44 @@
-const axios = window.axios;
+const axios = window.axios; // Use axios for making HTTP requests
 const url =
   "https://my-json-server.typicode.com/kellybuchanan/WebDev-Spring2021";
 
-// Asynchronous function to create a new user
-export const createUser = async (id, color, size, name, animal) => {
-  try {
-    const response = await axios({
-      method: "post",
-      url: `${url}/users`,
-      data: {
-        id,
-        color,
-        size,
-        name,
-        animal,
-      },
-      headers: {
-        "Content-Type": "application/json",
-      },
+// Function to create a new user (pet) with given attributes
+export const createUser = (id, color, size, name, animal) => {
+  return axios({
+    method: "post", // HTTP POST request to create new data
+    url: `${url}/users`,
+    data: {
+      id,
+      color,
+      size,
+      name,
+      animal,
+    },
+    headers: {
+      "Content-Type": "application/json", // Set content type as JSON
+    },
+    json: true,
+  })
+    .then((response) => {
+      console.log("POST response: ", response); // Log successful POST response
+    })
+    .catch((err) => {
+      console.log("POST error: ", err); // Log error if POST request fails
     });
-    console.log("POST response: ", response); // Log the response from the server
-  } catch (err) {
-    console.error("POST error: ", err); // Handle and log any errors
-  }
 };
 
-// Asynchronous function to get all users
-export const getAllUsers = async () => {
-  try {
-    const response = await axios.get("./servs/users.json"); // Fetch users from local JSON file
-    console.log(response.data); // Log the fetched data
-    return response.data; // Return the user data
-  } catch (err) {
-    console.error("GET Error: ", err); // Handle and log any errors
-  }
+// Function to fetch all users (pets) data
+export const getAllUsers = () => {
+  return (
+    axios
+      // .get(`${url}/users`) // Uncomment to use external API
+      .get("./servs/users.json") // Use local JSON file instead for testing
+      .then((response) => {
+        console.log(response.data); // Log the data fetched from the server
+        return response.data; // Return fetched user data
+      })
+      .catch((err) => {
+        console.log("GET Error: ", err); // Log error if GET request fails
+      })
+  );
 };
